@@ -20,7 +20,8 @@ def client(msg, log_buffer=sys.stderr):
     try:
         print('sending "{0}"'.format(msg), file=log_buffer)
         # TODO: send your message to the server here.
-        sock.sendall("b'"+str(msg))
+
+        sock.sendall(msg.encode('utf-8'))
 
         # TODO: the server should be sending you back your message as a series
         #       of 16-byte chunks. Accumulate the chunks you get to build the
@@ -29,15 +30,13 @@ def client(msg, log_buffer=sys.stderr):
         #
         #       Log each chunk you receive.  Use the print statement below to
         #       do it. This will help in debugging problems
-        reply = ''
         while True:
             chunk = ''
             chunk = sock.recv(16)
             print('received "{0}"'.format(chunk.decode('utf8')), file=log_buffer)
-            if chunk == 0:
-                break
-            else:
-                reply += chunk
+            received_message += chunk.decode('utf8')
+            if len(chunk.decode('utf8'))<16:
+                break    
     except Exception as e:
         traceback.print_exc()
         sys.exit(1)
@@ -46,7 +45,7 @@ def client(msg, log_buffer=sys.stderr):
         #       the server you will want to close your client socket.
         sock.close()
         print('closing socket', file=log_buffer)
-        return reply
+        return received_message 
 
         # TODO: when all is said and done, you should return the entire reply
         # you received from the server as the return value of this function.

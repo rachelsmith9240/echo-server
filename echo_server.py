@@ -5,7 +5,8 @@ import traceback
 
 def server(log_buffer=sys.stderr):
     # set an address for our server
-    address = ('127.0.0.1', 10000)
+    # address = ('127.0.0.1', 10000)
+    address = ('localhost', 10000)
     # TODO: Replace the following line with your code which will instantiate
     #       a TCP socket with IPv4 Addressing, call the socket you make 'sock'
     sock = socket.socket()
@@ -65,7 +66,7 @@ def server(log_buffer=sys.stderr):
                     # message is a trick we learned in the lesson: if you don't
                     # remember then ask your classmates or instructor for a clue.
                     # :)
-                    if data == 0:
+                    if len(data.decode('utf8'))<16:
                         break
             except Exception as e:
                 traceback.print_exc()
