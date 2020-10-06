@@ -1,3 +1,7 @@
+'''
+Module creates the server socket
+'''
+
 import socket
 import sys
 import traceback
@@ -33,7 +37,7 @@ def server(log_buffer=sys.stderr):
 
                     if len(data.decode('utf8'))<16:
                         break
-            except Exception as e:
+            except Exception:
                 traceback.print_exc()
                 sys.exit(1)
             finally:
